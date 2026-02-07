@@ -1,59 +1,119 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ERP & E-Commerce System (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Enterprise Resource Planning (ERP) and E-Commerce management system built with Laravel 12. This system is designed to manage various aspects of a business including inventory, sales, accounting, human resources, and detailed reporting.
 
-## About Laravel
+## 🚀 Key Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📦 Inventory & Products
+- **Product Management**: Create, edit, and manage products with support for barcodes, categories, and multiple pricing tiers.
+- **Stock Control**: Real-time tracking of stock levels, alerts for low stock, and warehouse management.
+- **Print Templates**: Customizable templates for printing labels and invoices.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 💰 Sales & Invoicing
+- **Point of Sale (POS)**: Fast and efficient interface for processing sales.
+- **Invoicing**: Generate professional invoices (PDF support), manage tax rates, and track payments.
+- **Quotations**: Create and manage price quotes for customers.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📊 Accounting & Finance
+- **Double-Entry Ledger**: Full accounting system with journals, assets, liabilities, equity, revenue, and expenses.
+- **Chart of Accounts**: Customizable COA to fit business needs.
+- **Financial Reports**: Balance Sheet, Profit & Loss, and Tax Reports.
 
-## Learning Laravel
+### 🔐 Security & User Management
+- **Role-Based Access Control (RBAC)**: Granular permissions for users (Admin, Manager, Cashier, etc.).
+- **Two-Factor Authentication (2FA)**: Enhanced security with Google Authenticator support.
+- **Security Logs**: Detailed audit trails for login activities and sensitive actions.
+- **Password Policy**: Enforceable password strength rules.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### ⚙️ System Settings
+- **Dynamic Subscription Plans**: Database-driven subscription management for SaaS implementation.
+- **Localization**: Support for Arabic (RTL) and English, with timezone and currency configurations.
+- **Company Settings**: Manage company profile, logos, and tax identification numbers.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Requirements
 
-## Laravel Sponsors
+- **PHP**: >= 8.2
+- **Composer**: Latest version
+- **Node.js**: >= 18.x
+- **Database**: SQLite (Default) / MySQL / PostgreSQL
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📥 Installation & Setup
 
-### Premium Partners
+Follow these steps to set up the project locally:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Clone the Repository
+```bash
+git clone <repository_url>
+cd ecommerce_laravel
+```
 
-## Contributing
+### 2. Install Dependencies
+Install PHP and JavaScript dependencies:
+```bash
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Environment Setup
+Copy the example environment file and generate the application key:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+### 4. Database Setup
+The project is configured to use SQLite by default. Creating the database file:
+- **Windows**:
+  ```powershell
+  New-Item -ItemType File database/database.sqlite
+  ```
+- **Linux/Mac**:
+  ```bash
+  touch database/database.sqlite
+  ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Run migrations and seed the database with initial data (Admin user, Plans, Roles, Permissions):
+```bash
+php artisan migrate --seed --class=DatabaseSeeder
+```
+*Note: This will also verify the installation of Dynamic Plans.*
 
-## Security Vulnerabilities
+### 5. Compile Assets
+Build the frontend assets (Tailwind CSS, JS):
+```bash
+npm run build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 6. Run the Application
+Start the local development server:
+```bash
+php artisan serve
+```
+Access the application at: [http://localhost:8000](http://localhost:8000)
 
-## License
+## 👤 Default Credentials
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+After seeding the database, you can log in with:
+
+- **Email**: `admin@example.com` (or `test@example.com` depending on seeder)
+- **Password**: `password`
+
+## 📁 Project Structure
+
+- `app/Models`: Eloquent models (Product, SaleInvoice, User, etc.).
+- `app/Http/Controllers`: Business logic and request handling.
+- `database/migrations`: Database schema definitions.
+- `resources/views`: Blade templates for the UI.
+- `routes/web.php`: Application routes definition.
+
+## 🤝 Contributing
+
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'Add some amazing feature'`).
+4. Push to the branch (`git push origin feature/amazing-feature`).
+5. Open a Pull Request.
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
