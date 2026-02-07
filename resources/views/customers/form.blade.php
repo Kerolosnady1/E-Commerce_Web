@@ -67,7 +67,7 @@
 
                 <div class="mb-6">
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="is_active" {{ old('is_active', $customer->is_active ?? true) ? 'checked' : '' }}
+                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $customer->is_active ?? true) ? 'checked' : '' }}
                             class="w-4 h-4 rounded border-border-dark bg-surface-dark text-primary focus:ring-primary">
                         <span class="text-slate-300">العميل نشط</span>
                     </label>

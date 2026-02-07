@@ -97,7 +97,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-sm font-medium text-slate-300">{{ $item->product->sku }}</td>
-                            <td class="px-6 py-4 text-sm text-slate-400">{{ $item->product->category->name }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-400">{{ $item->product->category->name ?? 'غير محدد' }}</td>
                             <td class="px-6 py-4 text-sm font-bold text-white">{{ $item->quantity }} وحدة</td>
                             <td class="px-6 py-4 text-sm font-bold text-white">{{ number_format($item->product->price, 2) }} ر.س</td>
                             <td class="px-6 py-4">

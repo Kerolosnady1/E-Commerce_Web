@@ -121,7 +121,7 @@
                 <div class="space-y-3 pt-2">
                     <label
                         class="flex items-center gap-3 p-3 bg-surface-dark/50 border border-border-dark rounded-xl cursor-pointer hover:border-primary/30 transition-all">
-                        <input type="checkbox" name="is_default" id="template_default"
+                        <input type="checkbox" name="is_default" id="template_default" value="1"
                             class="w-5 h-5 rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-slate-900">
                         <div>
                             <p class="text-white text-sm font-bold">تعيين كقالب افتراضي</p>
@@ -131,7 +131,7 @@
 
                     <label
                         class="flex items-center gap-3 p-3 bg-surface-dark/50 border border-border-dark rounded-xl cursor-pointer hover:border-primary/30 transition-all">
-                        <input type="checkbox" name="show_qr_code" id="template_qr"
+                        <input type="checkbox" name="show_qr_code" id="template_qr" value="1"
                             class="w-5 h-5 rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-slate-900">
                         <div>
                             <p class="text-white text-sm font-bold">إظهار رمز QR</p>
@@ -142,7 +142,7 @@
 
                     <label
                         class="flex items-center gap-3 p-3 bg-surface-dark/50 border border-border-dark rounded-xl cursor-pointer hover:border-primary/30 transition-all">
-                        <input type="checkbox" name="show_signature" id="template_signature"
+                        <input type="checkbox" name="show_signature" id="template_signature" value="1"
                             class="w-5 h-5 rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-slate-900">
                         <div>
                             <p class="text-white text-sm font-bold">إظهار التوقيع والختم</p>

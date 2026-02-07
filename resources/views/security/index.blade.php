@@ -37,10 +37,16 @@
                             <p class="text-slate-400 text-sm">{{ $role->permissions_count }} صلاحية</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button class="p-1 text-slate-400 hover:text-primary" onclick="editRole({{ $role->id }})">
+                            <button class="p-1 text-slate-400 hover:text-yellow-400"
+                                onclick="managePermissions({{ $role->id }})" title="صلاحيات">
+                                <span class="material-icons text-sm">vpn_key</span>
+                            </button>
+                            <button class="p-1 text-slate-400 hover:text-primary" onclick="editRole({{ $role->id }})"
+                                title="تعديل">
                                 <span class="material-icons text-sm">edit</span>
                             </button>
-                            <button class="p-1 text-slate-400 hover:text-red-400" onclick="deleteRole({{ $role->id }})">
+                            <button class="p-1 text-slate-400 hover:text-red-400" onclick="deleteRole({{ $role->id }})"
+                                title="حذف">
                                 <span class="material-icons text-sm">delete</span>
                             </button>
                         </div>
@@ -81,6 +87,51 @@
         </div>
     </div>
 
+
+
+    <!-- Permissions Modal -->
+    <div id="permissionsModal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div
+            class="bg-card-dark border border-border-dark rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-border-dark flex items-center justify-between">
+                <h2 class="text-xl font-bold text-white">إدارة الصلاحيات</h2>
+                <button onclick="closePermissionsModal()" class="text-slate-400 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6">
+                <form id="permissionsForm">
+                    <input type="hidden" id="permRoleId">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right">
+                            <thead class="bg-surface-dark">
+                                <tr>
+                                    <th class="px-4 py-3 text-sm text-slate-400">الوحدة (Module)</th>
+                                    <th class="px-4 py-3 text-sm text-slate-400 text-center">عرض (View)</th>
+                                    <th class="px-4 py-3 text-sm text-slate-400 text-center">إضافة (Add)</th>
+                                    <th class="px-4 py-3 text-sm text-slate-400 text-center">تعديل (Edit)</th>
+                                    <th class="px-4 py-3 text-sm text-slate-400 text-center">حذف (Delete)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="permissionsTableBody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+
+            <div class="p-6 border-t border-border-dark flex justify-end gap-3">
+                <button onclick="closePermissionsModal()"
+                    class="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-bold">إلغاء</button>
+                <button onclick="savePermissions()"
+                    class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold">حفظ الصلاحيات</button>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
         <script>
             function showAddRoleModal() {
@@ -97,10 +148,9 @@
             }
 
             function editRole(id) {
-                // For now, prompt for new name. In a real app, this would open a permissions modal.
                 const name = prompt('الاسم الجديد للدور:');
                 if (name) {
-                    fetch('{{ route("api.roles.add") }}', { // Reuse add for update if it handles ID or add update route
+                    fetch('{{ route("api.roles.add") }}', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': window.csrfToken },
                         body: JSON.stringify({ name, role_id: id })
@@ -120,6 +170,83 @@
                         .then(r => r.json())
                         .then(data => { showNotification(data.message || 'تم الحذف', 'success'); location.reload(); });
                 }
+            }
+
+            // Permissions Management
+            const permModal = document.getElementById('permissionsModal');
+            const permTable = document.getElementById('permissionsTableBody');
+            const permRoleId = document.getElementById('permRoleId');
+
+            function managePermissions(roleId) {
+                permRoleId.value = roleId;
+                permTable.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-slate-400">جاري التحميل...</td></tr>';
+                permModal.classList.remove('hidden');
+
+                fetch(`/api/roles/${roleId}/permissions`)
+                    .then(r => r.json())
+                    .then(data => {
+                        renderPermissionsTable(data.modules, data.permissions);
+                    });
+            }
+
+            function closePermissionsModal() {
+                permModal.classList.add('hidden');
+            }
+
+            function renderPermissionsTable(modules, permissions) {
+                permTable.innerHTML = '';
+                const actions = ['view', 'add', 'change', 'delete'];
+
+                modules.forEach(module => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-t border-border-dark hover:bg-surface-dark/50 transition-colors';
+
+                    let html = `<td class="px-4 py-3 text-white font-medium">${module.name_ar || module.name_en}</td>`;
+
+                    actions.forEach(action => {
+                        const perm = permissions.find(p => p.module_id === module.id && p.action === action);
+                        const isChecked = perm ? perm.is_allowed : false; // Default false if not found
+
+                        html += `
+                                            <td class="text-center px-4 py-3">
+                                                <input type="checkbox" 
+                                                    class="w-5 h-5 rounded accent-primary cursor-pointer perm-check" 
+                                                    data-module="${module.id}" 
+                                                    data-action="${action}"
+                                                    ${isChecked ? 'checked' : ''}>
+                                            </td>
+                                        `;
+                    });
+
+                    row.innerHTML = html;
+                    permTable.appendChild(row);
+                });
+            }
+
+            function savePermissions() {
+                const roleId = permRoleId.value;
+                const checkboxes = document.querySelectorAll('.perm-check');
+                const permissions = [];
+
+                checkboxes.forEach(cb => {
+                    permissions.push({
+                        module_id: cb.dataset.module,
+                        action: cb.dataset.action,
+                        allowed: cb.checked
+                    });
+                });
+
+                fetch(`/api/roles/${roleId}/permissions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': window.csrfToken },
+                    body: JSON.stringify({ permissions })
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        showNotification(data.message, 'success');
+                        closePermissionsModal();
+                        setTimeout(() => location.reload(), 1000);
+                    });
             }
         </script>
     @endpush

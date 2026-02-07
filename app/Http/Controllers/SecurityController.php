@@ -14,7 +14,11 @@ class SecurityController extends Controller
      */
     public function index()
     {
-        $roles = Role::withCount('permissions')->get();
+        $roles = Role::withCount([
+            'permissions' => function ($query) {
+                $query->where('is_allowed', true);
+            }
+        ])->get();
         $recentLogs = SecurityLog::latest()->take(10)->get();
 
         return view('security.index', compact('roles', 'recentLogs'));
@@ -148,7 +152,7 @@ class SecurityController extends Controller
         $query = SecurityLog::with('user');
 
         if ($request->filled('type')) {
-            $query->where('type', $request->type);
+            $query->where('action_type', $request->type);
         }
 
         if ($request->filled('from')) {
@@ -204,5 +208,51 @@ class SecurityController extends Controller
             'success' => false,
             'message' => 'الدور غير موجود'
         ], 404);
+    }
+
+    /**
+     * API: Get role permissions
+     */
+    public function getPermissions(Role $role)
+    {
+        $modules = \App\Models\Module::where('is_active', true)->orderBy('order')->get();
+        $permissions = \App\Models\RolePermission::where('role_id', $role->id)->get();
+
+        return response()->json([
+            'success' => true,
+            'modules' => $modules,
+            'permissions' => $permissions
+        ]);
+    }
+
+    /**
+     * API: Update role permissions
+     */
+    public function updatePermissions(Request $request, Role $role)
+    {
+        $validated = $request->validate([
+            'permissions' => 'required|array',
+            'permissions.*.module_id' => 'required|exists:modules,id',
+            'permissions.*.action' => 'required|string',
+            'permissions.*.allowed' => 'required|boolean',
+        ]);
+
+        foreach ($validated['permissions'] as $perm) {
+            \App\Models\RolePermission::updateOrCreate(
+                [
+                    'role_id' => $role->id,
+                    'module_id' => $perm['module_id'],
+                    'action' => $perm['action'],
+                ],
+                [
+                    'is_allowed' => $perm['allowed']
+                ]
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم تحديث الصلاحيات بنجاح'
+        ]);
     }
 }

@@ -16,9 +16,11 @@
                 <select name="type"
                     class="w-full bg-surface-dark border border-border-dark rounded-lg px-3 py-2 text-sm text-white focus:border-primary outline-none">
                     <option value="">الكل</option>
-                    <option value="login" {{ request('type') == 'login' ? 'selected' : '' }}>تسجيل دخول</option>
+                    <option value="login_success" {{ request('type') == 'login_success' ? 'selected' : '' }}>تسجيل دخول
+                    </option>
                     <option value="logout" {{ request('type') == 'logout' ? 'selected' : '' }}>تسجيل خروج</option>
-                    <option value="failed" {{ request('type') == 'failed' ? 'selected' : '' }}>محاولة فاشلة</option>
+                    <option value="login_failed" {{ request('type') == 'login_failed' ? 'selected' : '' }}>محاولة فاشلة
+                    </option>
                     <option value="password_change" {{ request('type') == 'password_change' ? 'selected' : '' }}>تغيير كلمة
                         المرور</option>
                 </select>
@@ -60,7 +62,7 @@
                 @forelse($logs ?? [] as $log)
                     <tr class="border-t border-border-dark hover:bg-primary/5 transition-colors">
                         <td class="px-4 py-3 text-sm text-slate-300">{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
-                        <td class="px-4 py-3 text-white font-medium">{{ $log->user->name ?? 'غير معروف' }}</td>
+                        <td class="px-4 py-3 text-white font-medium">{{ $log->user?->name ?? 'غير معروف' }}</td>
                         <td class="px-4 py-3 text-sm text-slate-400">
                             {{ $log->getActionTypeLabel() }}
                             <div class="text-xs text-slate-500">{{ $log->description }}</div>

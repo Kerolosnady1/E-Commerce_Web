@@ -17,8 +17,8 @@
                     <!-- Enable VAT -->
                     <div class="p-6 bg-surface-dark rounded-xl">
                         <label class="flex items-center gap-4 cursor-pointer">
-                            <input type="checkbox" name="vat_enabled" value="1"
-                                   {{ old('vat_enabled', $settings->vat_enabled ?? true) ? 'checked' : '' }}
+                            <input type="checkbox" name="tax_enabled" value="1"
+                                   {{ old('tax_enabled', $settings->tax_enabled ?? true) ? 'checked' : '' }}
                                    class="w-6 h-6 rounded accent-primary cursor-pointer">
                             <div>
                                 <span class="text-white font-bold text-lg">تفعيل ضريبة القيمة المضافة</span>
@@ -31,7 +31,7 @@
                     <div>
                         <label class="block text-sm font-bold text-slate-400 mb-2">نسبة الضريبة (%)</label>
                         <div class="relative">
-                            <input type="number" name="vat_rate" step="0.01" value="{{ old('vat_rate', $settings->vat_rate ?? 15) }}" 
+                            <input type="number" name="default_tax_rate" step="0.01" value="{{ old('default_tax_rate', $settings->default_tax_rate ?? 15) }}" 
                                    class="w-full px-4 py-3 pl-12 bg-surface-dark border border-border-dark rounded-xl text-white focus:border-primary outline-none text-xl font-bold">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">%</span>
                         </div>
@@ -52,8 +52,8 @@
                         <h3 class="text-white font-bold">إعدادات الفواتير</h3>
                         
                         <label class="flex items-center gap-3 p-4 bg-surface-dark rounded-xl cursor-pointer">
-                            <input type="checkbox" name="show_vat_breakdown" value="1"
-                                   {{ old('show_vat_breakdown', $settings->show_vat_breakdown ?? true) ? 'checked' : '' }}
+                            <input type="checkbox" name="show_vat_on_invoice" value="1"
+                                   {{ old('show_vat_on_invoice', $settings->show_vat_on_invoice ?? true) ? 'checked' : '' }}
                                    class="w-5 h-5 rounded accent-primary cursor-pointer">
                             <div>
                                 <span class="text-white font-medium">عرض تفصيل الضريبة</span>
@@ -62,8 +62,8 @@
                         </label>
 
                         <label class="flex items-center gap-3 p-4 bg-surface-dark rounded-xl cursor-pointer">
-                            <input type="checkbox" name="prices_include_vat" value="1"
-                                   {{ old('prices_include_vat', $settings->prices_include_vat ?? false) ? 'checked' : '' }}
+                            <input type="checkbox" name="prices_include_tax" value="1"
+                                   {{ old('prices_include_tax', $settings->prices_include_tax ?? false) ? 'checked' : '' }}
                                    class="w-5 h-5 rounded accent-primary cursor-pointer">
                             <div>
                                 <span class="text-white font-medium">الأسعار شاملة الضريبة</span>

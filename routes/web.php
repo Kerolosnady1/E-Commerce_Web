@@ -187,6 +187,8 @@ Route::prefix('api')->group(function () {
     Route::delete('/customers/{customer}', [CustomerController::class, 'apiDelete'])->name('api.customers.delete');
     Route::post('/roles/add', [SecurityController::class, 'addRole'])->name('api.roles.add');
     Route::delete('/roles/delete', [SecurityController::class, 'deleteRole'])->name('api.roles.delete');
+    Route::get('/roles/{role}/permissions', [SecurityController::class, 'getPermissions'])->name('api.roles.permissions.get');
+    Route::post('/roles/{role}/permissions', [SecurityController::class, 'updatePermissions'])->name('api.roles.permissions.update');
 });
 
 // Auth Routes (using Laravel's built-in)
