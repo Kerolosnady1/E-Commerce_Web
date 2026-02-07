@@ -97,6 +97,7 @@ Route::post('/profile/change-password', [ProfileController::class, 'changePasswo
 
 // Reports
 Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+Route::get('/reports/sales/export', [ReportsController::class, 'exportSales'])->name('reports.sales.export');
 Route::get('/reports/sales', [ReportsController::class, 'sales'])->name('reports.sales');
 Route::get('/reports/customers', [ReportsController::class, 'customers'])->name('reports.customers');
 Route::get('/reports/profit', [ReportsController::class, 'profit'])->name('reports.profit');

@@ -186,8 +186,8 @@
                 @endforeach
             </div>
             <a class="mt-8 py-3 w-full bg-primary text-white rounded-2xl text-sm font-bold shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all text-center"
-                href="{{ route('reports.sales') }}">
-                تحميل كشف المبيعات
+                href="{{ route('reports.sales.export') }}">
+                تحميل كشف المبيعات (CSV)
             </a>
         </div>
     </div>
@@ -268,14 +268,14 @@
                 const bar = document.createElement('div');
                 bar.className = 'flex-1 flex flex-col items-center group relative bar-item';
                 bar.innerHTML = `
-                            <div class="w-full rounded-t-xl transition-all group-hover:bg-primary/50 ${index % 2 == 0 ? 'bg-primary' : 'bg-blue-800'}"
-                                style="height: ${Math.max(height, 5)}%">
-                                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-slate-900 px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                    ${day.sales.toLocaleString()} ر.س
+                                <div class="w-full rounded-t-xl transition-all group-hover:bg-primary/50 ${index % 2 == 0 ? 'bg-primary' : 'bg-blue-800'}"
+                                    style="height: ${Math.max(height, 5)}%">
+                                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-slate-900 px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        ${day.sales.toLocaleString()} ر.س
+                                    </div>
                                 </div>
-                            </div>
-                            <span class="mt-4 text-xs font-medium text-slate-500">${day.day}</span>
-                        `;
+                                <span class="mt-4 text-xs font-medium text-slate-500">${day.day}</span>
+                            `;
                 container.appendChild(bar);
             });
         }

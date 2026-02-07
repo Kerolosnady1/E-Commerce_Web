@@ -16,7 +16,7 @@
                 </div>
                 <h3 class="text-lg font-semibold text-white mb-2">البريد الإلكتروني</h3>
                 <p class="text-slate-400 mb-4">تواصل معنا عبر البريد الإلكتروني</p>
-                <a href="mailto:support@erp-system.com" class="text-primary hover:underline">support@erp-system.com</a>
+                <a href="mailto:kerolosnady444@gmail.com" class="text-primary hover:underline">kerolosnady444@gmail.com</a>
             </div>
 
             <div class="bg-card-dark border border-border-dark rounded-xl p-6 text-center">
@@ -25,7 +25,7 @@
                 </div>
                 <h3 class="text-lg font-semibold text-white mb-2">الهاتف</h3>
                 <p class="text-slate-400 mb-4">متاحين من 9 صباحاً - 6 مساءً</p>
-                <a href="tel:+966123456789" class="text-primary hover:underline">+966 12 345 6789</a>
+                <a href="tel:+201120731769" class="text-primary hover:underline" dir="ltr">+20 11 2073 1769</a>
             </div>
         </div>
 

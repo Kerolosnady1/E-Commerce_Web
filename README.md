@@ -95,7 +95,7 @@ Access the application at: [http://localhost:8000](http://localhost:8000)
 
 After seeding the database, you can log in with:
 
-- **Email**: `admin@example.com` (or `test@example.com` depending on seeder)
+- **Email**: `kerolosnady444@gmail.com`
 - **Password**: `password`
 
 ## 📁 Project Structure

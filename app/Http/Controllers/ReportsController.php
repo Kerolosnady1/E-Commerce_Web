@@ -44,6 +44,56 @@ class ReportsController extends Controller
     }
 
     /**
+     * Export Sales Report to CSV
+     */
+    public function exportSales(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::now()->startOfMonth());
+        $endDate = $request->input('end_date', Carbon::now()->endOfMonth());
+
+        $fileName = 'sales_report_' . date('Y-m-d') . '.csv';
+
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $columns = ['Invoice Number', 'Customer', 'Date', 'Status', 'Total', 'Tax'];
+
+        $callback = function () use ($startDate, $endDate, $columns) {
+            $file = fopen('php://output', 'w');
+            // Add BOM for Excel UTF-8 compatibility
+            fputs($file, "\xEF\xBB\xBF");
+            fputcsv($file, $columns);
+
+            SaleInvoice::whereBetween('issued_date', [$startDate, $endDate])
+                ->with('customer')
+                ->orderBy('issued_date', 'desc')
+                ->chunk(100, function ($invoices) use ($file) {
+                    foreach ($invoices as $invoice) {
+                        $row = [
+                            $invoice->number,
+                            $invoice->customer->name ?? 'N/A',
+                            $invoice->issued_date->format('Y-m-d'),
+                            $invoice->status,
+                            $invoice->total,
+                            $invoice->tax_amount
+                        ];
+
+                        fputcsv($file, $row);
+                    }
+                });
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
      * Customer report
      */
     public function customers(Request $request)

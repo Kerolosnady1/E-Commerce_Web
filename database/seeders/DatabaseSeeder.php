@@ -28,12 +28,13 @@ class DatabaseSeeder extends Seeder
         // Create admin user
         $admin = User::create([
             'name' => 'مدير النظام',
-            'email' => 'admin@erp.com',
+            'email' => 'kerolosnady444@gmail.com',
             'password' => Hash::make('password123'),
         ]);
 
         UserProfile::create([
             'user_id' => $admin->id,
+            'phone' => '+201120731769',
             'system_language' => 'ar',
         ]);
 
